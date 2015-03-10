@@ -14,6 +14,12 @@ public class FileLoaderTestCase extends TestCase {
 		fileLoader.addInputDirectory(path);
 	}
 
+	protected void tearDown() throws Exception {
+		if (fileLoader != null) {
+			fileLoader.close();
+		}
+	}
+
 	public void testShouldLoadAllTextFilesFromDirectory() throws Exception {
 		assertNotNull(fileLoader.list());
 		assertTrue(fileLoader.list().length > 0);
@@ -27,5 +33,16 @@ public class FileLoaderTestCase extends TestCase {
 			throws Exception {
 
 		assertNotNull(fileLoader.getInputStreams());
+	}
+
+	public void testShouldGenerateTrigramFromInputStream() throws Exception {
+		TrigramDictionary trigramDictionary = null;
+
+		try {
+			trigramDictionary = fileLoader.getTrigramDictionary();
+		} catch (Throwable t) {
+			fail();
+		}
+		assertNotNull(trigramDictionary);
 	}
 }

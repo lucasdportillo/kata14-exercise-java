@@ -1,4 +1,4 @@
-package com.globant.exercise.kata14.trigrams;
+package com.globant.exercise.kata14.trigrams.app;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

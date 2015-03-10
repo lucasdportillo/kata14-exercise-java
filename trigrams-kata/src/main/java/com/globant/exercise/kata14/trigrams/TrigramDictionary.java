@@ -8,12 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * This class holds the trigrams generated from input files
  * 
  * @author Lucas Portillo
  */
 public class TrigramDictionary {
+
+	public static Logger logger = LoggerFactory
+			.getLogger(TrigramDictionary.class);
 
 	static class TrigramValue {
 		String text;
@@ -69,7 +75,7 @@ public class TrigramDictionary {
 	 * @throws IOException
 	 *             when closing the buffered reader
 	 */
-	public void generate(InputStreamReader input) throws IOException {
+	public void generate(InputStreamReader input) {
 		BufferedReader reader = new BufferedReader(input);
 
 		try {
@@ -93,8 +99,11 @@ public class TrigramDictionary {
 					value = new TrigramValue(words[i + 2]);
 
 					// skips problematic combination of words
-					if (key.toString().split(" ").length != 2)
+					if (key.toString().split(" ").length != 2) {
+						logger.trace("Skipping single word trigram key ({})",
+								key.toString());
 						continue;
+					}
 
 					List<TrigramValue> values = trigrams.get(key.toString());
 
@@ -117,9 +126,13 @@ public class TrigramDictionary {
 				}
 			}
 		} catch (IOException ioe) {
-			// TODO: log this error
+			logger.error("IOException when generating trigrams from input", ioe);
 		} finally {
-			reader.close();
+			try {
+				reader.close();
+			} catch (IOException ioe) {
+				logger.error("IOException when closing input reader", ioe);
+			}
 		}
 	}
 

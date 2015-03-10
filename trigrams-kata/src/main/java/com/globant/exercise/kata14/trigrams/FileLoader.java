@@ -76,7 +76,7 @@ public class FileLoader {
 		return inputStreamList.toArray(new InputStreamReader[] {});
 	}
 
-	public TrigramDictionary getTrigramDictionary() throws IOException {
+	public TrigramDictionary getTrigramDictionary() throws FileNotFoundException {
 
 		TrigramDictionary trigramDictionary = new TrigramDictionary();
 
