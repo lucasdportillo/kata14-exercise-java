@@ -53,6 +53,7 @@ public class App {
 
 			fileLoader.close();
 			bufferedWriter.close();
+
 		} catch (FileNotFoundException fnfe) {
 			logger.error(
 					"FileNotFoundException when processing trigrams. Message: {}",
