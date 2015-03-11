@@ -13,7 +13,7 @@
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-client</artifactId>
 			<version>2.6.0</version>
-			<scope>provided</scope>
+			<scope>runtime</scope>
 			<type>jar</type>
 		</dependency>
 
@@ -38,7 +38,7 @@
 			<artifactId>commons-logging</artifactId>
 			<groupId>commons-logging</groupId>
 			<version>1.0</version>
-			<scope>provided</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- add slf4j interfaces to classpath -->
@@ -115,6 +115,23 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
