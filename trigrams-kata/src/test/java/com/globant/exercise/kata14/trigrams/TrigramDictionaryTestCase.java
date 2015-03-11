@@ -1,5 +1,7 @@
 package com.globant.exercise.kata14.trigrams;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,11 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.globant.exercise.kata14.trigrams.TrigramDictionary.TrigramValue;
 
-public class TrigramDictionaryTestCase extends TestCase {
+public class TrigramDictionaryTestCase {
 
 	// SUT
 	private TrigramDictionary trigramDictionary;
@@ -22,7 +26,8 @@ public class TrigramDictionaryTestCase extends TestCase {
 	private InputStreamReader fileInput2;
 	private ByteArrayInputStream byteArrayInputStream;
 
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		trigramDictionary = new TrigramDictionary();
 
 		String line = "This is a line to generate trigrams-test";
@@ -35,7 +40,8 @@ public class TrigramDictionaryTestCase extends TestCase {
 		assertNotNull("missing file: sample2.txt",
 				this.getClass().getResource("/sample2.txt"));
 
-		File file1 = new File(this.getClass().getResource("/sample.txt").toURI());
+		File file1 = new File(this.getClass().getResource("/sample.txt")
+				.toURI());
 		fileInput1 = new InputStreamReader(new FileInputStream(file1));
 
 		File file2 = new File(this.getClass().getResource("/sample2.txt")
@@ -43,13 +49,15 @@ public class TrigramDictionaryTestCase extends TestCase {
 		fileInput2 = new InputStreamReader(new FileInputStream(file2));
 	}
 
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		byteArrayInputStream.close();
 		stringInput.close();
 		fileInput1.close();
 		fileInput2.close();
 	}
 
+	@Test
 	public void testShouldGenerateTrigrams() throws Exception {
 		trigramDictionary.generate(stringInput);
 
@@ -98,6 +106,7 @@ public class TrigramDictionaryTestCase extends TestCase {
 	 * 
 	 * @throws Exception
 	 */
+	@Test
 	public void testShouldGenerateTrigramsFromInputFile() throws Exception {
 		trigramDictionary.generate(fileInput1);
 
@@ -115,6 +124,7 @@ public class TrigramDictionaryTestCase extends TestCase {
 	 * 
 	 * @throws Exception
 	 */
+	@Test
 	public void testShouldGenerateTrigramsFromTwoInputFiles() throws Exception {
 		Map<String, List<TrigramValue>> trigrams;
 
@@ -140,6 +150,7 @@ public class TrigramDictionaryTestCase extends TestCase {
 	 * 
 	 * @throws Exception
 	 */
+	@Test
 	public void testShouldTwoWordsTrigramKey() throws Exception {
 		trigramDictionary.generate(fileInput2);
 
@@ -165,6 +176,7 @@ public class TrigramDictionaryTestCase extends TestCase {
 	 * 
 	 * @throws Exception
 	 */
+	@Test
 	public void testShouldGenerateTrigramsFromInputFile2() throws Exception {
 		trigramDictionary.generate(fileInput2);
 
@@ -184,6 +196,7 @@ public class TrigramDictionaryTestCase extends TestCase {
 		System.out.println(values);
 	}
 
+	@Test
 	public void testShouldAppendTwoStrings1() throws Exception {
 		String[] a = new String[] { "1", "2" };
 		String[] b = new String[] { "Three", "Four" };
@@ -199,6 +212,7 @@ public class TrigramDictionaryTestCase extends TestCase {
 		assertEquals(b[1], appended[3]);
 	}
 
+	@Test
 	public void testShouldAppendTwoStrings2() throws Exception {
 		String[] a = null;
 		String[] b = new String[] { "Three", "Four" };
@@ -212,6 +226,7 @@ public class TrigramDictionaryTestCase extends TestCase {
 		assertEquals(b[1], appended[1]);
 	}
 
+	@Test
 	public void testShouldAppendTwoStrings3() throws Exception {
 		String[] a = new String[] { "One", "2" };
 		String[] b = null;

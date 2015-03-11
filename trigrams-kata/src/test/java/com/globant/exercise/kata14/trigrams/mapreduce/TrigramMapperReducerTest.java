@@ -73,4 +73,19 @@ public class TrigramMapperReducerTest {
 		reduceDriver.runTest();
 	}
 
+	@Test
+	public void testMapReduce() throws Exception {
+		mapReduceDriver.withInput(new LongWritable(1), new Text(
+				"This is a line to generate trigrams-test"));
+
+		mapReduceDriver.withOutput(new Text("This is"), new Text("a"));
+		mapReduceDriver.withOutput(new Text("is a"), new Text("line"));
+		mapReduceDriver.withOutput(new Text("a line"), new Text("to"));
+		mapReduceDriver.withOutput(new Text("line to"), new Text("generate"));
+		mapReduceDriver.withOutput(new Text("to generate"), new Text(
+				"trigramstest"));
+
+		mapReduceDriver.runTest(false);
+	}
+
 }

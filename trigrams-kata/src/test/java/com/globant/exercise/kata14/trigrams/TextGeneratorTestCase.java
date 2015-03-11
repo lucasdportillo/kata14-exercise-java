@@ -1,5 +1,7 @@
 package com.globant.exercise.kata14.trigrams;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -8,11 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import com.globant.exercise.kata14.trigrams.TrigramDictionary.TrigramValue;
 
-import junit.framework.TestCase;
-
-public class TextGeneratorTestCase extends TestCase {
+public class TextGeneratorTestCase {
 
 	private SimpleTextGenerator textGenerator;
 	private TrigramDictionary trigramDictionary;
@@ -22,7 +25,8 @@ public class TextGeneratorTestCase extends TestCase {
 	 * <q>This is a simple trigram for testing</q> <br/>
 	 * <q>This is a short piece of text for testing</q>
 	 */
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		trigramDictionary = new TrigramDictionary();
 		textGenerator = new SimpleTextGenerator(trigramDictionary);
 
@@ -74,6 +78,7 @@ public class TextGeneratorTestCase extends TestCase {
 		trigrams.put("trigram for", values);
 	}
 
+	@Test
 	public void testShouldGenerateNoTextWithEmptyTrigram() throws Exception {
 		trigramDictionary.getTrigrams().clear();
 		String text = textGenerator.generate(true);
@@ -82,6 +87,7 @@ public class TextGeneratorTestCase extends TestCase {
 				text);
 	}
 
+	@Test
 	public void testShouldGenerateText() throws Exception {
 		String text = textGenerator.generate(false);
 
@@ -91,6 +97,7 @@ public class TextGeneratorTestCase extends TestCase {
 		System.out.println("Generated text: " + text);
 	}
 
+	@Test
 	public void testShouldGenerateRandomText() throws Exception {
 		String text = textGenerator.generate(true);
 
@@ -100,6 +107,7 @@ public class TextGeneratorTestCase extends TestCase {
 		System.out.println("Generated text: " + text);
 	}
 
+	@Test
 	public void testShouldGenerateAtLeastXAmountOfWords() throws Exception {
 		assertNotNull("missing file: sample2",
 				this.getClass().getResource("/sample2.txt"));

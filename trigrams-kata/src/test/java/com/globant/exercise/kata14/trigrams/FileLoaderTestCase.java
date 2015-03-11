@@ -1,25 +1,34 @@
 package com.globant.exercise.kata14.trigrams;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-public class FileLoaderTestCase extends TestCase {
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class FileLoaderTestCase {
 
 	// SUT
 	public FileLoader fileLoader;
 
-	protected void setUp() {
+	@Before
+	public void setUp() {
 		String path = this.getClass().getResource("/").getPath();
 
 		fileLoader = new FileLoader();
 		fileLoader.addInputDirectory(path);
 	}
 
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		if (fileLoader != null) {
 			fileLoader.close();
 		}
 	}
 
+	@Test
 	public void testShouldLoadAllTextFilesFromDirectory() throws Exception {
 		assertNotNull(fileLoader.list());
 		assertTrue(fileLoader.list().length > 0);
@@ -29,12 +38,14 @@ public class FileLoaderTestCase extends TestCase {
 		}
 	}
 
+	@Test
 	public void testShouldCreateProperInputStreamFromDirectory()
 			throws Exception {
 
 		assertNotNull(fileLoader.getInputStreams());
 	}
 
+	@Test
 	public void testShouldGenerateTrigramFromInputStream() throws Exception {
 		TrigramDictionary trigramDictionary = null;
 
