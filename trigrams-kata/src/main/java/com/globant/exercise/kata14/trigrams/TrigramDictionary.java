@@ -76,6 +76,7 @@ public class TrigramDictionary {
 	 *             when closing the buffered reader
 	 */
 	public void generate(InputStreamReader input) {
+		logger.trace("Enter method generate: {}", input);
 		BufferedReader reader = new BufferedReader(input);
 
 		try {
@@ -86,8 +87,14 @@ public class TrigramDictionary {
 			String[] words = null;
 
 			while ((line = reader.readLine()) != null) {
+				if ("".equals(line))
+					continue;
+
+				logger.trace("Processing line: {}", line);
 				line = line.replaceAll("[^a-zA-Z0-9 ]", "");
+				line = line.replaceAll("[  ]+", " ");
 				line = line.trim();
+				logger.trace("Line after filtering: {}", line);
 
 				words = append(words, line.split(" "));
 
@@ -97,6 +104,8 @@ public class TrigramDictionary {
 					key.append(words[i + 1].trim());
 
 					value = new TrigramValue(words[i + 2]);
+					logger.trace("(key, value): ({}, {})",
+							new Object[] { key.toString(), value.text });
 
 					// skips problematic combination of words
 					if (key.toString().split(" ").length != 2) {
@@ -114,6 +123,9 @@ public class TrigramDictionary {
 					// avoid repetition
 					if (!values.contains(value)) {
 						values.add(value);
+					} else {
+						logger.trace("(key, value): ({}, {})", new Object[] {
+								key.toString(), value.text });
 					}
 
 					trigrams.put(key.toString(), values);
